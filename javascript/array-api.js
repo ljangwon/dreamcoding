@@ -1,21 +1,32 @@
+function log(message){
+  console.log(message);
+}
 // Q1. make a string out of an array
 {
   const fruits = ['apple', 'banana', 'orange'];
+  const result = fruits.join('|');
+
+  log(result);
 }
 
 // Q2. make an array out of a string
 {
   const fruits = '🍎, 🥝, 🍌, 🍒';
+  const array1 = fruits.split(',');
+  console.log( array1);
 }
 
 // Q3. make this array look like this: [5, 4, 3, 2, 1]
 {
   const array = [1, 2, 3, 4, 5];
+  array1 = array.reverse();
+  log( array1);
 }
 
 // Q4. make new array without the first two elements
 {
   const array = [1, 2, 3, 4, 5];
+  log(array.slice(2));
 }
 
 class Student {
@@ -36,31 +47,62 @@ const students = [
 
 // Q5. find a student with the score 90
 {
-}
+  const result = students.find( ( student, index) => student.score === 90 );
+  console.log(result);
+  }
+
 
 // Q6. make an array of enrolled students
 {
+  const result = students.filter( (student) => student.enrolled );
+  log(result);
 }
 
 // Q7. make an array containing only the students' scores
 // result should be: [45, 80, 90, 66, 88]
 {
+  const result = students.map( (student) => student.score*2 );
+  log(result);
 }
 
 // Q8. check if there is a student with the score lower than 50
 {
+  console.clear();
+  const result = students.some( (student) => student.score<50 );
+  log(result);
+  const result2 = students.every( (student) => student.score<50 );
+  log(result2);
 }
 
 // Q9. compute students' average score
 {
+  const result = students.reduce( (prev, curr) =>{
+    log('----------');
+    log(prev);
+    log(curr);
+    return prev + curr.score;
+  }, 0)
+  log(result/students.length);
 }
 
 // Q10. make a string containing all the scores
 // result should be: '45, 80, 90, 66, 88'
 {
+  const result = students
+  .map((student) => student.score)
+  .filter( (score)=> score >=40)
+  .join();
+  log(result);
 }
 
 // Bonus! do Q10 sorted in ascending order
 // result should be: '45, 66, 80, 88, 90'
 {
+
+  const result = students
+  .map( (student) => student.score)
+  .sort()
+  .join();
+  log(result);
+
 }
