@@ -1,4 +1,4 @@
-// Callback Hell example
+// Callback Hell example to promise 
 class UserStorage {
     loginUser( id, password ){
         return new Promise( (resolve, reject) => {
