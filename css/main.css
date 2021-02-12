@@ -1,0 +1,55 @@
+/* Cascading
+
+// Order : Author style -> User Style -> Browser
+// !important   bad smell
+//
+
+// Selectors
+// Universal *
+// type Tag
+// ID #id 
+// Class .class
+// State:
+// Attribute []
+
+// selector {
+    property: value;
+} */
+
+* {
+    color: rgb(128, 0, 11);
+}
+
+li {
+    color: blue;
+}
+
+#special {
+    color : pink;
+}
+
+.red {
+    width: 100px;
+    height: 100px;
+    background: yellow;
+}
+
+button:hover {
+    color: red;
+    background: beige
+}
+
+a[href] {
+    color: blue;
+}
+a[href="naver.com"] {
+    color: green;
+}
+
+a[href*="google"] {
+    color: red;
+}
+
+li#special {
+    color : rgb(199, 255, 192);
+}
