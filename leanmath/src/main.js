@@ -15,30 +15,6 @@ toggleBtn.addEventListener('click', ()=> {
     icons.classList.toggle('active');
 });
 
-// 
-const radios= document.querySelector('.students__option');
-
-log(radios);
-radios.addEventListener('click', (event)=> onButtonClick(event, items));
-
-// ----------------------------------------
-
-function onButtonClick(event, items) {
-  const dataset = event.target.dataset;
-  const key = dataset.key;
-  const value = dataset.value;
-
-  if (key == null || value == null) {
-    return;
-  }
-
-  console.log(key);
-  console.log(value);
-
-  displayItems(items.filter((item) => item[key] === value));
-}
-
-
 // Fetch the items from the JSON file
 function loadStudents() {
   return fetch('data/data.json')
@@ -56,12 +32,13 @@ function displayStudents(students) {
 function createHTMLString(student) {
   return `
   <li class="student">
-     <span class="item_description">${student.num}, ${student.name}</span>
+     <span class="item_description">${student.num}, ${student.grade1}, ${student.grade2}, ${student.name}</span>
   </li>
   `;
 }
 
-/*
+// ----------------------------------------
+
 function onButtonClick(event, items) {
   const dataset = event.target.dataset;
   const key = dataset.key;
@@ -71,24 +48,26 @@ function onButtonClick(event, items) {
     return;
   }
 
+  if (key == "grade1" && value == "A") {
+    displayStudents(items);
+    return;
+  }
+
   console.log(key);
   console.log(value);
 
-  displayItems(items.filter((item) => item[key] === value));
+  displayStudents(items.filter((item) => item[key] === value));
 }
-*/
-/*
+
 function setEventListeners(items) {
-  const logo = document.querySelector('.logo');
-  const buttons = document.querySelector('.buttons');
-  logo.addEventListener('click', () => displayItems(items));
+  const buttons= document.querySelector('.students__option');
+
   buttons.addEventListener('click', (event) => onButtonClick(event, items));
-}
-*/
+ }
 
 loadStudents()
   .then((students) => {
     displayStudents(students);
-    //setEventListeners(items);
+    setEventListeners(students);
   })
   .catch(console.log);
