@@ -10,20 +10,140 @@
     <header> </header>
     <footer></footer>
     <section> </section>
-    <div></div>
-    <span></span>
+    <p> this is sentence <div> line object </div> </p>
+    <p> this is sentence <span> box object </span> </p>
 
-    <h1></h1>
-    <button></button>
+    <h2>  Fieldset Legend</h2>
+
+<!-- <fieldset>  <legend>  -->
+    <form>
+        <fieldset>
+          <legend>Fruit juice size</legend>
+          <p>
+            <input type="radio" name="size" id="size_1" value="small">
+            <label for="size_1">Small</label>
+          </p>
+          <p>
+            <input type="radio" name="size" id="size_2" value="medium">
+            <label for="size_2">Medium</label>
+          </p>
+          <p>
+            <input type="radio" name="size" id="size_3" value="large">
+            <label for="size_3">Large</label>
+          </p>
+        </fieldset>
+      </form>
+<!-- checkbox -->
+<form>
+    <p>
+      <input type="checkbox" id="taste_1" name="taste_cherry" value="cherry">
+      <label for="taste_1">I like cherry</label>
+    </p>
+    <p>
+      <input type="checkbox" id="taste_2" name="taste_banana" value="banana">
+      <label for="taste_2">I like banana</label>
+    </p>
+  </form>
+
+<!-- link -->
+<link href="payment-form.css" rel="stylesheet">
+
+<!-- abbr -->
+<p><abbr title="HyperText Markup Language">HTML</abbr> 
+    is the best thing since sliced web.</p>
+
+
+<h1>Payment form</h1>
+
+<p>Required fields are followed by 
+    <strong><abbr title="required">*****</abbr></strong>.</p>
+
+
+<section>
+    <h2>Contact information</h2>
+    <fieldset>
+      <legend>Title</legend>
+      <ul>
+          <li>
+            <label for="title_1">
+              <input type="radio" id="title_1" name="title" value="K" >
+              King
+            </label>
+          </li>
+          <li>
+            <label for="title_2">
+              <input type="radio" id="title_2" name="title" value="Q">
+              Queen
+            </label>
+          </li>
+          <li>
+            <label for="title_3">
+              <input type="radio" id="title_3" name="title" value="J">
+              Joker
+            </label>
+          </li>
+      </ul>
+    </fieldset>
+    <p>
+      <label for="name">
+        <span>Name: </span>
+        <strong><abbr title="required">*</abbr></strong>
+      </label>
+      <input type="text" id="name" name="username">
+    </p>
+    <p>
+      <label for="mail">
+        <span>E-mail: </span>
+        <strong><abbr title="required">*</abbr></strong>
+      </label>
+      <input type="email" id="mail" name="usermail">
+    </p>
+    <p>
+      <label for="pwd">
+        <span>Password: </span>
+        <strong><abbr title="required">*</abbr></strong>
+      </label>
+      <input type="password" id="pwd" name="password">
+    </p>
+</section>
+<section>
+    <h2>Payment information</h2>
+    <p>
+      <label for="card">
+        <span>Card type:</span>
+      </label>
+      <select id="card" name="usercard">
+        <option value="visa">Visa</option>
+        <option value="mc">Mastercard</option>
+        <option value="amex">American Express</option>
+      </select>
+    </p>
+    <p>
+      <label for="number">
+        <span>Card number:</span>
+        <strong><abbr title="required">*</abbr></strong>
+      </label>
+      <input type="tel" id="number" name="cardnumber">
+    </p>
+    <p>
+      <label for="date">
+        <span>Expiration date:</span>
+        <strong><abbr title="required">*</abbr></strong>
+        <em>formatted as mm/dd/yyyy</em>
+      </label>
+      <input type="date" id="date" name="expiration">
+    </p>
+</section>
 
     <!-- a -->
-    <a href="https://leanedu.net" target=_blank></a>
+    <a href="https://leanedu.net" target=_blank> link leanedu.net</a>
 
     <p> This is a sentence. <b> That </b> </p>
-    <p> This is a sentence. <span> That </span> </p>
-    <p> This is a sentence. <div> That </div> </p>
+    <p> This is a sentence. <span> That -box object </span>  </p>
+    <p> This is a sentence. <div> That - line object </div>   </p>
 
     <!-- ol, ul, li -->
+
     <ol type= "I" reversed >
         <li>1</li>
         <li>2</li>
