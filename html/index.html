@@ -1,40 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
+
 <body>
-    <header> </header>
-    <footer></footer>
-    <section> </section>
-    <p> this is sentence <div> line object </div> </p>
-    <p> this is sentence <span> box object </span> </p>
+  <h2>
+    Basic sections of a documnet
+  </h2>
 
-    <h2>  Fieldset Legend</h2>
+  <header>
+    header
+  </header>
+  <nav>
+    naigation bar
+  </nav>
+  <main>
+    main content
+  </main>
+  <aside>
+    sidebar
+  </aside>
+  <footer>
+    footer
+  </footer>
 
-<!-- <fieldset>  <legend>  -->
-    <form>
-        <fieldset>
-          <legend>Fruit juice size</legend>
-          <p>
-            <input type="radio" name="size" id="size_1" value="small">
-            <label for="size_1">Small</label>
-          </p>
-          <p>
-            <input type="radio" name="size" id="size_2" value="medium">
-            <label for="size_2">Medium</label>
-          </p>
-          <p>
-            <input type="radio" name="size" id="size_3" value="large">
-            <label for="size_3">Large</label>
-          </p>
-        </fieldset>
-      </form>
-<!-- checkbox -->
-<form>
+  <h2>
+    Block-level Object vs Inline-level Oject
+  </h2>
+
+  <p> this is sentence
+  <div> block level object </div>
+  </p>
+  <p> this is sentence <span> inline level Object </span> </p>
+
+  <h2> Fieldset Legend</h2>
+
+  <!-- <fieldset>  <legend>  -->
+  <form>
+    <fieldset>
+      <legend>Fruit juice size</legend>
+      <p>
+        <input type="radio" name="size" id="size_1" value="small">
+        <label for="size_1">Small</label>
+      </p>
+      <p>
+        <input type="radio" name="size" id="size_2" value="medium">
+        <label for="size_2">Medium</label>
+      </p>
+      <p>
+        <input type="radio" name="size" id="size_3" value="large">
+        <label for="size_3">Large</label>
+      </p>
+    </fieldset>
+  </form>
+  
+  <!-- checkbox -->
+  <form>
     <p>
       <input type="checkbox" id="taste_1" name="taste_cherry" value="cherry">
       <label for="taste_1">I like cherry</label>
@@ -45,43 +71,44 @@
     </p>
   </form>
 
-<!-- link -->
-<link href="payment-form.css" rel="stylesheet">
+  <!-- link -->
+  <link href="payment-form.css" rel="stylesheet">
 
-<!-- abbr -->
-<p><abbr title="HyperText Markup Language">HTML</abbr> 
+  <!-- abbr -->
+  <p><abbr title="HyperText Markup Language">HTML</abbr>
     is the best thing since sliced web.</p>
 
 
-<h1>Payment form</h1>
+  <h1>Payment form</h1>
 
-<p>Required fields are followed by 
-    <strong><abbr title="required">*****</abbr></strong>.</p>
+  <p>Required fields are followed by
+    <strong><abbr title="required">*****</abbr></strong>.
+  </p>
 
 
-<section>
+  <section>
     <h2>Contact information</h2>
     <fieldset>
       <legend>Title</legend>
       <ul>
-          <li>
-            <label for="title_1">
-              <input type="radio" id="title_1" name="title" value="K" >
-              King
-            </label>
-          </li>
-          <li>
-            <label for="title_2">
-              <input type="radio" id="title_2" name="title" value="Q">
-              Queen
-            </label>
-          </li>
-          <li>
-            <label for="title_3">
-              <input type="radio" id="title_3" name="title" value="J">
-              Joker
-            </label>
-          </li>
+        <li>
+          <label for="title_1">
+            <input type="radio" id="title_1" name="title" value="K">
+            King
+          </label>
+        </li>
+        <li>
+          <label for="title_2">
+            <input type="radio" id="title_2" name="title" value="Q">
+            Queen
+          </label>
+        </li>
+        <li>
+          <label for="title_3">
+            <input type="radio" id="title_3" name="title" value="J">
+            Joker
+          </label>
+        </li>
       </ul>
     </fieldset>
     <p>
@@ -105,8 +132,8 @@
       </label>
       <input type="password" id="pwd" name="password">
     </p>
-</section>
-<section>
+  </section>
+  <section>
     <h2>Payment information</h2>
     <p>
       <label for="card">
@@ -133,55 +160,58 @@
       </label>
       <input type="date" id="date" name="expiration">
     </p>
-</section>
+  </section>
 
-    <!-- a -->
-    <a href="https://leanedu.net" target=_blank> link leanedu.net</a>
+  <!-- a -->
+  <a href="https://leanedu.net" target=_blank> link leanedu.net</a>
 
-    <p> This is a sentence. <b> That </b> </p>
-    <p> This is a sentence. <span> That -box object </span>  </p>
-    <p> This is a sentence. <div> That - line object </div>   </p>
+  <p> This is a sentence. <b> That </b> </p>
+  <p> This is a sentence. <span> That -box object </span> </p>
+  <p> This is a sentence.
+  <div> That - line object </div>
+  </p>
 
-    <!-- ol, ul, li -->
+  <!-- ol, ul, li -->
 
-    <ol type= "I" reversed >
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-    </ol>
+  <ol type="I" reversed>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+  </ol>
 
-    <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-    </ul>
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
 
-    
 
-    <!-- Input -->
-    <label for="input__name">Name: </label>
-    <input id="input__name" type="text">
-    <input id="input__name" type="button">
-    <input id="input__name" type="checkbox">
-    <input id="input__name" type="color">
-    <input id="input__name" type="date">
-    <input id="input__name" type="datetime-local">
-    <input id="input__name" type="email">
-    <input id="input__name" type="file">
-    <input id="input__name" type="image">
-    <input id="input__name" type="month">
-    <input id="input__name" type="number">
-    <input id="input__name" type="radio">
-    <input id="input__name" type="range">
-    <input id="input__name" type="reset">
-    <input id="input__name" type="search">
-    <input id="input__name" type="submit">
-    <input id="input__name" type="tel">
-    <input id="input__name" type="time">
-    <input id="input__name" type="url">
-    <input id="input__name" type="week">
-    <input id="input__name" type="datetime">
+
+  <!-- Input -->
+  <label for="input__name">Name: </label>
+  <input id="input__name" type="text">
+  <input id="input__name" type="button">
+  <input id="input__name" type="checkbox">
+  <input id="input__name" type="color">
+  <input id="input__name" type="date">
+  <input id="input__name" type="datetime-local">
+  <input id="input__name" type="email">
+  <input id="input__name" type="file">
+  <input id="input__name" type="image">
+  <input id="input__name" type="month">
+  <input id="input__name" type="number">
+  <input id="input__name" type="radio">
+  <input id="input__name" type="range">
+  <input id="input__name" type="reset">
+  <input id="input__name" type="search">
+  <input id="input__name" type="submit">
+  <input id="input__name" type="tel">
+  <input id="input__name" type="time">
+  <input id="input__name" type="url">
+  <input id="input__name" type="week">
+  <input id="input__name" type="datetime">
 
 </body>
+
 </html>
