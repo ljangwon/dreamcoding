@@ -45,23 +45,29 @@ function createHTMLString_st_list(student) {
   </li>
   `;
 }
+// Fetch the items from the JSON file
+function load_st_info() {
+	return fetch('data/이수현.json')
+		.then((response) => response.json())
+		.then((json) => json.course_test_history);
+}
 
 // Update the dashboard with the given items
-function display_st_dashboard(students) {
+function display_st_info(st_infos) {
 	const container = document.querySelector('#st__dashboard');
-	container.innerHTML = students
-		.map((student) => createHTMLString_st_dashboard(student))
+	container.innerHTML = st_infos
+		.map((st_info) => createHTMLString_st_info(st_info))
 		.join('');
 }
 
 // Create HTML list item from the given data item
-function createHTMLString_st_dashboard(student) {
+function createHTMLString_st_info(st_info) {
 	return `
   <li class="student">
-     	<span class="item_description"> ${student.num}, 
-     	<input type="text" id="grade1" value="${student.grade1}">,
-     	<input type="text" id="grade2" value="${student.grade2}">,
-     	<input type="text" id="name" value="${student.name}"></span>
+     	<span class="item_description"> ${st_info.num}, 
+     	<input type="text" id="grade1" value="${st_info.test_name}">,
+     	<input type="text" id="grade2" value="${st_info.test_date}">,
+     	<input type="text" id="name" value="${st_info.test_result}"></span>
   </li>
   `;
 }
@@ -94,10 +100,16 @@ function setEventListeners(items) {
 	buttons.addEventListener('click', (event) => onButtonClick(event, items));
 }
 
-loadStudents()
+/* loadStudents()
 	.then((students) => {
-		//displayStudents(students);
-		display_st_dashboard(students);
+		displayStudents(students);
 		setEventListeners(students);
+	})
+	.catch(console.log);
+*/
+
+load_st_info()
+	.then((st_info) => {
+		display_st_info(st_info);
 	})
 	.catch(console.log);
