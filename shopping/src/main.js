@@ -11,11 +11,6 @@ function displayItems(items) {
   container.innerHTML = items.map((item) => createHTMLString(item)).join('');
 }
 
-function displayItems(students) {
-  const container = document.querySelector('.students');
-  container.innerHTML = students.map((student) => createHTMLString(student)).join('');
-}
-
 // Create HTML list item from the given data item
 function createHTMLString(item) {
   return `
