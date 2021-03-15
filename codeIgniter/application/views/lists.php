@@ -110,11 +110,20 @@ defined("BASEPATH") or exit("No direct script access allowed"); ?>
 				async: false
 			})
 
-			.done( function( html)  {
+			.done( function( html )  {
+					alert("html:"+html+":");
 					alert("정상적으로 저장되었습니다."); 		
-			});
-	
-			alert("execSave");
+			})
+
+			.fail( function( xhr, status, errorThrown) {
+				alert( "오류가 발생했습니다." 
+				+ " 오류명: " + errorThrown 
+				+ " 상태: " + status);
+			})
+
+			.always( function(xhr, status) {
+				alert("execSave 요청이 완료되었습니다.");
+			});			
 		}
 
 		function openMessage(IDS) {
