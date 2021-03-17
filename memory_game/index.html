@@ -1,0 +1,286 @@
+<html>
+	<head>
+		<style>
+			.tbl {
+				margin:0px auto;
+			}
+			.trCl {
+				width: 1000px;
+				height: 200px;
+			}
+			.tdCl {
+				width: 200px;
+				height: 200px;
+				border: 1px solid #dddddd;
+				cursor:pointer;
+			}
+			.cardIMG {
+				height: 200px;				
+			}
+
+			.NOT_VISIBLES{
+				display : none;
+			}
+
+			.VISIBLES{
+				display : block;
+			}
+
+			.CLOSE{
+				background-color: #aaaaaa;
+			}
+
+			.ClTXT{
+				font-size:35px;
+				color:#cccccc;
+				text-align:center;
+				font-weight:bold;
+			}
+		</style>
+		<script>
+			var addedCardList = "";
+			var CARD_NO_ARR = new Array(20);
+
+			//카드 배치하기
+			function arrangeCard()
+			{
+				var cardTot = 20;
+				for(var i=1; i <= 20; i++)
+				{
+					var cardIdx = getRandNum(cardTot - (i-1));
+					while(addedCardList.indexOf(";" + cardIdx + ";") >= 0)
+					{
+						if(cardIdx == 20)
+						{
+							cardIdx = 1;
+						}
+						else
+						{
+							cardIdx++;
+						}
+					}
+					CARD_NO_ARR[i-1] = cardIdx;
+					addedCardList += ";" + cardIdx + ";";
+				}
+			}
+
+			var startTime = "";
+			//카드 출력하기
+			function showCardList()
+			{
+				for(var i=0; i < CARD_NO_ARR.length; i++)
+				{
+					var IMG_NAME = CARD_NO_ARR[i];
+					if(IMG_NAME > 10)
+					{
+						IMG_NAME = IMG_NAME - 10;
+					}
+					var CARD_IMG_OBJ = document.getElementById("CARD" + (i + 1));
+					CARD_IMG_OBJ.src = "img/"+IMG_NAME+".jpg";
+
+					CARD_IMG_OBJ.success = "N";
+					CARD_IMG_OBJ.className = "cardIMG NOT_VISIBLES";
+
+					document.getElementById("TEXT" + (i + 1)).style.display = "block"
+
+				}
+				startTime = (new Date()).getTime();
+			}
+
+			function clickIMG(idx)
+			{
+				var state = "open";
+				if(document.getElementById("CARD"+idx).className.indexOf("NOT_VISIBLES") > 0)
+				{
+					state = "close";
+				}
+
+				if(state == "close")
+				{
+					openIMG(idx);
+				}
+			}
+
+			var OPENIMG = "";
+			function openIMG(idx)
+			{
+				if(OPENIMG)
+				{
+					if(document.getElementById("CARD"+OPENIMG).src == document.getElementById("CARD"+idx).src)   //정답
+					{
+						setTimeout(function() { findSuccess(OPENIMG, idx); }, 300);
+					}
+					else   //오답
+					{
+						setTimeout(function() { findFail(OPENIMG, idx); }, 300);
+					}
+				}
+				document.getElementById("CARD"+idx).className = "cardIMG VISIBLES";
+				document.getElementById("TEXT" + (idx)).style.display = "none"
+				if(!OPENIMG)
+				{
+					OPENIMG = idx;
+				}
+			}
+
+			function findSuccess(preIMG, nowIMG)
+			{
+				document.getElementById("CARD"+preIMG).success = "Y";
+				document.getElementById("CARD"+nowIMG).success = "Y";
+				document.getElementById("divGood").style.display = "block";
+				OPENIMG = "";
+
+				setTimeout(function() { document.getElementById("divGood").style.display = "none"; }, 800);
+
+				allComplete();
+			}
+
+			function allComplete()
+			{
+				for(var i=1; i <= 20; i++)
+				{
+					if(document.getElementById("CARD"+i).success != "Y")
+					{
+						return false;
+					}
+				}
+				var elapsed_time = ((new Date()).getTime() - startTime)/1000;
+				document.getElementById("divGood").style.display = "none";
+				alert("'"+elapsed_time+"' 초에 성공하셨습니다.");
+				init();
+			}
+
+			function findFail(preIMG, nowIMG)
+			{
+				document.getElementById("CARD"+preIMG).success = "N";
+				document.getElementById("CARD"+nowIMG).success = "N";
+
+				document.getElementById("CARD"+preIMG).className = "cardIMG NOT_VISIBLES";
+				document.getElementById("TEXT" + (preIMG)).style.display = "block"
+				document.getElementById("CARD"+nowIMG).className = "cardIMG NOT_VISIBLES";
+				document.getElementById("TEXT" + (nowIMG)).style.display = "block"
+				OPENIMG = "";
+			}
+
+			function init()
+			{
+			    addedCardList = "";
+				CARD_NO_ARR = new Array(20);
+
+				arrangeCard();
+				showCardList();
+				fittingDivGood();
+				
+			}
+
+			function fittingDivGood()
+			{
+				var WID = document.body.clientWidth;
+				var HEG = document.body.clientHeight;
+				document.getElementById("divGood").style.top = (HEG-200)/2 + "px";
+				document.getElementById("divGood").style.left = (WID-200)/2 + "px";
+			}
+
+			function getRandNum(maxNum)
+			{
+				//1 ~ maxNum 사이의 난수 값
+				return Math.floor(Math.random() * (maxNum - 1)) + 1;
+			}
+		</script>
+	</head>
+	<body onload="javascript:init();">
+		<div style="position:absolute; top:400px; display:none; width:300px; height:100px; background-color:#777777; color:white; text-align:center; padding-top: 65px; font-weight:bold; font-size:20px; left:250px" id="divGood">
+			Good!
+		</div>
+		<table class="tbl" cellspacing="10">
+			<tr class="trCl">
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('1')">
+					<span id="TEXT1" class="ClTXT">1</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD1">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('2')">
+					<span id="TEXT2" class="ClTXT">2</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD2">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('3')">
+					<span id="TEXT3" class="ClTXT">3</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD3">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('4')">
+					<span id="TEXT4" class="ClTXT">4</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD4">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('5')">
+					<span id="TEXT5" class="ClTXT">5</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD5">
+				</td>
+			</tr>
+			<tr class="trCl">
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('6')">
+					<span id="TEXT6" class="ClTXT">6</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD6">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('7')">
+					<span id="TEXT7" class="ClTXT">7</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD7">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('8')">
+					<span id="TEXT8" class="ClTXT">8</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD8">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('9')">
+					<span id="TEXT9" class="ClTXT">9</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD9">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('10')">
+					<span id="TEXT10" class="ClTXT">10</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD10">
+				</td>
+			</tr>
+			<tr class="trCl">
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('11')">
+					<span id="TEXT11" class="ClTXT">11</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD11">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('12')">
+					<span id="TEXT12" class="ClTXT">12</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD12">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('13')">
+					<span id="TEXT13" class="ClTXT">13</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD13">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('14')">
+					<span id="TEXT14" class="ClTXT">14</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD14">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('15')">
+					<span id="TEXT15" class="ClTXT">15</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD15">
+				</td>
+			</tr>
+			<tr class="trCl">
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('16')">
+					<span id="TEXT16" class="ClTXT">16</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD16">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('17')">
+					<span id="TEXT17" class="ClTXT">17</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD17">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('18')">
+					<span id="TEXT18" class="ClTXT">18</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD18">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('19')">
+					<span id="TEXT19" class="ClTXT">19</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD19">
+				</td>
+				<td class="tdCl CLOSE" onclick="javascript:clickIMG('20')">
+					<span id="TEXT20" class="ClTXT">20</span>
+					<img src="" class="cardIMG NOT_VISIBLES" id="CARD20">
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
