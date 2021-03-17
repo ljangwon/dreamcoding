@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+ <head>
+  <meta charset="UTF-8">
+  <title><?=$BASIC_browser_title?></title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9"/>: 
+  <script type="text/javascript" src="game1/jquery-1.10.1.min.js"></script>
+   <script type="text/javascript" src="game1/jquery.bpopup.min.js"></script>
+  <script type="text/javascript" src="game1/jsCommonLib.js"></script>
+  <style type="text/css">
+	@font-face {
+	  font-family: 'NanumGothicExtraBold';
+	  src: url('fonts/NanumGothicExtraBold.eot');
+	  src: url('fonts/NanumGothicExtraBold.woff') format('woff'),
+		   url('fonts/NanumGothicExtraBold.ttf') format('truetype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+
+	@font-face {
+	  font-family: 'NanumGothicBold';
+	  src: url('fonts/NanumGothicBold.eot');
+	  src: url('fonts/NanumGothicBold.woff') format('woff'),
+		   url('fonts/NanumGothicBold.ttf') format('truetype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+
+	@font-face {
+	  font-family: 'NanumGothic';
+	  src: url('fonts/NanumGothic.eot');
+	  src: url('fonts/NanumGothic.woff') format('woff'),
+		   url('fonts/NanumGothic.ttf') format('truetype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+
+	* {
+		padding: 0px;
+		margin: 0px
+	}
+  </style>
+  <script type="text/javascript">
+	var timer_main = null;
+	var nowTime = 0;
+	var allTime = (15 * 60);
+	var TEMA = "";
+	function start()
+	{
+		if(!timer_main)
+		{
+			timer_main = setInterval(processingTimer,1000);
+		}
+	}
+
+	var fontSizeThis = "<?=$divFont?>";
+	function applyFont()
+	{
+		if(!fontSizeThis)
+		{
+			fontSizeThis = "300"
+		}
+
+		fontSizeThis = fontSizeThis + "px"
+		getBBSObject("timer_text").style.fontSize = fontSizeThis;
+		getBBSObject("timer_text2").style.fontSize = fontSizeThis;
+	}
+
+	var MODE = "TIMER";
+
+	var PuctimerViewYN = "N"
+	var puc_message_text = "";
+	function alertMessage(message_text, timerViewYN)
+	{
+		puc_message_text = message_text
+		PuctimerViewYN = timerViewYN;
+		MODE = "MESSAGE";
+
+		/*
+		if(VAL == "REMAIN")
+		{
+			$("#timer_text").hide();
+			$("#timer_text2").show();
+		}
+		else if(VAL == "ELASTE_AND_REMAIN")
+		{
+			$("#timer_text").show();
+			$("#timer_text2").show();
+		}
+		else if(VAL == "ELASTE")
+		{
+			$("#timer_text").show();
+			$("#timer_text2").hide();
+		}
+		else
+		{
+			$("#timer_text").hide();
+			$("#timer_text2").show();
+		}
+
+*/
+		if(TEMA == "REMAIN")
+		{
+			if(PuctimerViewYN == "Y")
+			{
+				$("#timer_text2").html($("#timer_text2").html() + "<pre>"+message_text+"</pre>");
+				$("#timer_text2").show();
+			}
+			else
+			{
+				$("#timer_text2").html("<pre>"+message_text+"</pre>");
+				$("#timer_text2").show();
+
+				$("#timer_text").hide();
+				$("#timer_text").html("");
+			}
+		}
+		else if(TEMA == "ELASTE_AND_REMAIN")
+		{
+			if(PuctimerViewYN == "Y")
+			{
+				$("#timer_text").html($("#timer_text").html() + "<pre>"+message_text+"</pre>");
+
+				$("#timer_text").show();
+				$("#timer_text2").show();
+			}
+			else
+			{
+				$("#timer_text").html("<pre>"+message_text+"</pre>");
+				$("#timer_text").show();
+
+				$("#timer_text2").hide();
+				$("#timer_text2").html("");
+			}
+		}
+		else if(TEMA == "ELASTE")
+		{
+			if(PuctimerViewYN == "Y")
+			{
+				$("#timer_text").html($("#timer_text").html() + "<pre>"+message_text+"</pre>");
+
+				$("#timer_text").show();
+				$("#timer_text2").hide();
+			}
+			else
+			{
+				$("#timer_text").html("<pre>"+message_text+"</pre>");
+				$("#timer_text").show();
+
+				$("#timer_text2").hide();
+				$("#timer_text2").html("");
+			}
+		}
+		else
+		{
+			if(PuctimerViewYN == "Y")
+			{
+				$("#timer_text2").html($("#timer_text2").html() + "<pre>"+message_text+"</pre>");
+				$("#timer_text2").show();
+			}
+			else
+			{
+				$("#timer_text2").html("<pre>"+message_text+"</pre>");
+				$("#timer_text2").show();
+
+				$("#timer_text").hide();
+				$("#timer_text").html("");
+			}
+		}
+
+	}
+
+	function alertTimer()
+	{
+		MODE = "TIMER";
+		PuctimerViewYN = "N"
+		changeTemaApply(TEMA)
+	}
+
+	function resetTimer()
+	{
+		stopTimer()
+		timer_main = null;
+		nowTime = 0;
+		allTime = (15 * 60);
+
+		$("#timer_text").html("00:00:00");
+		$("#timer_text2").html("00:00:00");
+		displayMonitor()
+	}
+
+	function changeTemaApply(VAL)
+	{
+		TEMA = VAL;
+		if(VAL == "REMAIN")
+		{
+			$("#timer_text").hide();
+			$("#timer_text2").show();
+		}
+		else if(VAL == "ELASTE_AND_REMAIN")
+		{
+			$("#timer_text").show();
+			$("#timer_text2").show();
+		}
+		else if(VAL == "ELASTE")
+		{
+			$("#timer_text").show();
+			$("#timer_text2").hide();
+		}
+		else
+		{
+			$("#timer_text").hide();
+			$("#timer_text2").show();
+		}
+	}
+
+	function stopTimer()
+	{
+		if(timer_main)
+		{
+			clearInterval(timer_main);
+			timer_main = null;
+		}
+		displayMonitor()
+	}
+
+	function displayMonitor()
+	{
+		var monitorText = "";
+		if($("#timer_text").css("display") != "none")
+		{
+			monitorText = $("#timer_text").html();
+		}
+
+		if($("#timer_text2").css("display") != "none")
+		{
+			monitorText += "<br/><br/>" + $("#timer_text2").html();
+		}
+
+		if(window.opener)
+		{
+			var objMonitor = getBBSObjectOpener(window.opener, "divMonitor")
+			objMonitor.innerHTML = monitorText;
+		}
+	}
+
+	var stopREMAIN = false;
+
+	function processingTimer()
+	{
+		nowTime++;
+
+		var nowTime2 = allTime - nowTime;
+
+		var pMinute = Math.floor(nowTime/60);
+		var pSecond = nowTime%60;
+
+		var pHour = Math.floor(pMinute/60);
+		var pMinute = pMinute%60;
+
+		if(stopREMAIN == true)
+		{
+			$("#timer_text").css("color","red")
+		}
+		else
+		{
+			$("#timer_text").css("color","yellow")
+		}
+
+		if(MODE == "MESSAGE" && PuctimerViewYN == "N")
+		{
+			if(PuctimerViewYN == "Y" && $("#timer_text2").css("display") == "none")
+			{
+				nowTimeText = "<pre>" + puc_message_text + "</pre>";
+			}
+			
+			$("#timer_text").html(nowTimeText);
+		}
+		else
+		{
+			var nowTimeText = makeTwonLen(pHour) + ":" + makeTwonLen(pMinute) + ":" + makeTwonLen(pSecond);
+			if(PuctimerViewYN == "Y" && $("#timer_text2").css("display") == "none")
+			{
+				nowTimeText += "<pre>" + puc_message_text + "</pre>";
+			}
+			
+			$("#timer_text").html(nowTimeText);
+		}
+
+		/////////////////////////////////
+
+		var pMinute = Math.floor(nowTime2/60);
+		var pSecond = nowTime2%60;
+
+		var pHour = Math.floor(pMinute/60);
+		var pMinute = pMinute%60;
+
+		if(stopREMAIN == false)
+		{
+			if(MODE == "MESSAGE" && PuctimerViewYN == "N")
+			{
+				if(PuctimerViewYN == "Y" && $("#timer_text").css("display") == "none")
+				{
+					nowTimeText = "<pre> + puc_message_text + </pre>";
+				}
+				
+				$("#timer_text").html(nowTimeText);
+			}
+			else
+			{
+
+				if(pHour == 0 && pMinute == 0 && pSecond == 0)
+				{
+					var nowTimeText = makeTwonLen(pHour) + ":" + makeTwonLen(pMinute) + ":" + makeTwonLen(pSecond);
+					if(PuctimerViewYN == "Y" && $("#timer_text").css("display") == "none")
+					{
+						nowTimeText += "<pre> + puc_message_text + </pre>";
+					}
+					$("#timer_text2").html(nowTimeText);
+					$("#timer_text2").css("color","red")
+					stopREMAIN = true;
+				}
+				else
+				{
+					var nowTimeText = makeTwonLen(pHour) + ":" + makeTwonLen(pMinute) + ":" + makeTwonLen(pSecond);
+					if(PuctimerViewYN == "Y" && $("#timer_text").css("display") == "none")
+					{
+						nowTimeText += "<pre>" + puc_message_text + "</pre>";
+					}
+					$("#timer_text2").html(nowTimeText);
+					$("#timer_text2").css("color","white")
+				}
+			}
+		}
+
+		displayMonitor();
+	}
+
+	function makeTwonLen(VAL)
+	{
+		VAL = VAL.toString();
+		if(VAL.length == 1)
+		{
+			VAL = "0" + VAL;
+		}
+		return VAL;
+	}
+
+	function init()
+	{
+		applyFont();
+	}
+
+	function applyTime(MIN)
+	{
+		allTime = 60 * MIN;
+	}
+
+	function applyTimeEdit(MIN)
+	{
+		allTime = 60 * MIN;
+	}
+  </script>
+</head>
+<body style="background-color:black;width:100%;height:100%" onload="javascript:init();">
+	<div style="width:100%;height:700px;margin:0px auto;text-align:center">
+		<span id="timer_text" style="clear:both;margin:0px auto;color:yellow;text-align:center;font-weight:bold;font-size:300px;font-family:NanumGothicExtraBold">00:00:00</span>
+		<span id="timer_text2" style="clear:both;margin:0px auto;color:white;text-align:center;font-weight:bold;font-size:300px;font-family:NanumGothicExtraBold;display:none">00:00:00</span>
+	</div>
+</body>

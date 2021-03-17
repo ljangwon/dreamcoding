@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+	<head>
+		<meta charset="UTF-8" />
+		<title>인터넷 타이머</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+		<script type="text/javascript" src="game1/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="game1/jquery.bpopup.min.js"></script>
+		<script type="text/javascript" src="game1/jsCommonLib.js"></script>
+		<style type="text/css">
+			@font-face {
+				font-family: 'NanumGothicExtraBold';
+				src: url('fonts/NanumGothicExtraBold.eot');
+				src: url('fonts/NanumGothicExtraBold.woff') format('woff'),
+					url('fonts/NanumGothicExtraBold.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: 'NanumGothicBold';
+				src: url('fonts/NanumGothicBold.eot');
+				src: url('fonts/NanumGothicBold.woff') format('woff'),
+					url('fonts/NanumGothicBold.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: 'NanumGothic';
+				src: url('fonts/NanumGothic.eot');
+				src: url('fonts/NanumGothic.woff') format('woff'),
+					url('fonts/NanumGothic.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			* {
+				padding: 0px;
+				margin: 0px;
+				font-family: 'NanumGothic';
+			}
+		</style>
+		<script type="text/javascript">
+			function applyTime(objThis, MIN) {
+				if (objThis.checked) {
+					$('#totTime').val(MIN);
+					win.applyTime(MIN);
+				}
+			}
+
+			function applyTimeEdit(objThis, MIN) {
+				if (objThis) {
+					for (var i = 1; i <= 8; i++) {
+						if (getBBSObject('time_gubun' + i)) {
+							if (getBBSObject('time_gubun' + i).value == MIN) {
+								getBBSObject('time_gubun' + i).checked = true;
+							} else {
+								getBBSObject('time_gubun' + i).checked = false;
+							}
+						}
+					}
+
+					win.applyTimeEdit(MIN);
+				}
+			}
+
+			function getObjTime() {
+				for (var i = 1; i <= 8; i++) {
+					if (getBBSObject('time_gubun' + i)) {
+						if (getBBSObject('time_gubun' + i).checked) {
+							return getBBSObject('time_gubun' + i);
+						}
+					}
+				}
+			}
+
+			function startPlay() {
+				win.stopREMAIN = false;
+				if (getObjTime()) {
+					applyTime(getObjTime(), getObjTime().value);
+				} else {
+					applyTimeEdit(getBBSObject('totTime'), getBBSObject('totTime').value);
+				}
+
+				changeTema(getBBSObject('divTema'));
+				win.start();
+				alertTimer();
+			}
+
+			function stopPlay() {
+				win.stopTimer();
+			}
+
+			function resetPlay() {
+				win.resetTimer();
+			}
+
+			var win = null;
+			function init() {
+				win = window.open(
+					'start.html?divFont=' + getBBSObject('divFont').value,
+					'TIMER',
+					'scrollbars=no,toolbar=no,location=no,resizable=yes,status=no,menubar=no,left=0,top=0,fullscreen'
+				);
+				//win.focus();
+			}
+
+			function applyFontSize(objThis) {
+				win.fontSizeThis = objThis.value;
+				win.applyFont();
+			}
+
+			function changeTema(objThis) {
+				if (objThis) {
+					if (objThis.value) {
+						win.changeTemaApply(objThis.value);
+					}
+				}
+			}
+
+			var M = '';
+
+			function alertMessageChange() {
+				if (M == 'MESSAGE') {
+					alertMessage();
+				}
+			}
+
+			//MESSAGE
+			function alertMessage() {
+				var objMessage = getBBSObject('btnMessage');
+				var objTimer = getBBSObject('btnTimer');
+
+				objMessage.style.fontSize = '20px';
+				objMessage.style.color = 'white';
+				objMessage.style.backgroundColor = '#f79017';
+
+				objTimer.style.fontSize = '13px';
+				objTimer.style.color = '#cccccc';
+				objTimer.style.backgroundColor = '#777777';
+
+				var allviewVal = 'N';
+				if (getBBSObject('timerallview').checked) {
+					allviewVal = 'Y';
+				}
+
+				var message_text = getBBSObject('MESSAGE').value;
+				win.alertMessage(message_text, allviewVal);
+				M = 'MESSAGE';
+			}
+
+			function alertTimer() {
+				var objMessage = getBBSObject('btnMessage');
+				var objTimer = getBBSObject('btnTimer');
+
+				objTimer.style.fontSize = '20px';
+				objTimer.style.color = 'white';
+				objTimer.style.backgroundColor = '#f79017';
+
+				objMessage.style.fontSize = '13px';
+				objMessage.style.color = '#cccccc';
+				objMessage.style.backgroundColor = '#777777';
+				win.alertTimer();
+				M = 'TIMER';
+			}
+		</script>
+	</head>
+	<body onload="javascript:init();">
+		<br /><br />
+		<div
+			style="
+				width: 1000px;
+				height: 500px;
+				margin: 0px auto;
+				text-align: center;
+				background-color: white;
+			"
+		>
+			<span style="float: left; width: 800px; height: 200px">
+				<b>총 시간</b>
+				<input
+					type="text"
+					id="totTime"
+					value="10"
+					style="width: 30px; color: red; font-weight: bold"
+					onchange="javascript:applyTimeEdit(this,this.value);"
+				/><b>분</b>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				<input
+					type="radio"
+					id="time_gubun1"
+					name="time_gubun"
+					value="5"
+					onclick="javascript:applyTime(this,this.value);"
+				/>5분 &nbsp; &nbsp;
+				<input
+					type="radio"
+					id="time_gubun2"
+					name="time_gubun"
+					value="10"
+					onclick="javascript:applyTime(this,this.value);"
+					checked
+				/>10분 &nbsp; &nbsp;
+				<input
+					type="radio"
+					id="time_gubun3"
+					name="time_gubun"
+					value="15"
+					onclick="javascript:applyTime(this,this.value);"
+				/>15분 &nbsp; &nbsp;
+				<input
+					type="radio"
+					id="time_gubun4"
+					name="time_gubun"
+					value="20"
+					onclick="javascript:applyTime(this,this.value);"
+				/>20분 &nbsp; &nbsp;
+				<input
+					type="radio"
+					id="time_gubun5"
+					name="time_gubun"
+					value="30"
+					onclick="javascript:applyTime(this,this.value);"
+				/>30분 &nbsp; &nbsp;
+				<input
+					type="radio"
+					id="time_gubun6"
+					name="time_gubun"
+					value="40"
+					onclick="javascript:applyTime(this,this.value);"
+				/>40분 &nbsp; &nbsp;
+				<input
+					type="radio"
+					id="time_gubun7"
+					name="time_gubun"
+					value="45"
+					onclick="javascript:applyTime(this,this.value);"
+				/>45분 &nbsp; &nbsp;
+				<input
+					type="radio"
+					id="time_gubun8"
+					name="time_gubun"
+					value="60"
+					onclick="javascript:applyTime(this,this.value);"
+				/>60분 <br /><br />
+				<select id="divFont" onchange="javascript:applyFontSize(this);">
+					<option value="100">100px</option>
+					<option value="200">200px</option>
+					<option value="250">250px</option>
+					<option value="270">270px</option>
+					<option value="290">290px</option>
+					<option value="300">300px</option>
+					<option value="320">320px</option>
+					<option value="350" selected>350px</option>
+					<option value="380">380px</option>
+					<option value="400">400px</option>
+					<option value="500">500px</option>
+					<option value="600">600px</option>
+					<option value="700">700px</option>
+					<option value="800">800px</option></select
+				>폰트크기 &nbsp; &nbsp;
+				<select id="divTema" onchange="javascript:changeTema(this);">
+					<option value="REMAIN">REMAIN</option>
+					<option value="ELASTE_AND_REMAIN">ELASTE_AND_REMAIN</option>
+					<option value="ELASTE" selected>ELASTE</option>
+				</select>
+				테마
+				<br /><br />
+				<button
+					style="
+						width: 100px;
+						height: 40px;
+						font-size: 25px;
+						font-weight: bold;
+						background-color: white;
+						color: red;
+					"
+					onclick="javascript:startPlay();"
+				>
+					시작
+				</button>
+				&nbsp; &nbsp;
+				<button
+					style="
+						width: 130px;
+						height: 40px;
+						font-size: 25px;
+						font-weight: bold;
+						background-color: white;
+						color: red;
+					"
+					onclick="javascript:stopPlay();"
+				>
+					일시정지
+				</button>
+				&nbsp; &nbsp;
+				<button
+					style="
+						width: 100px;
+						height: 40px;
+						font-size: 25px;
+						font-weight: bold;
+						background-color: white;
+						color: red;
+					"
+					onclick="javascript:resetPlay();"
+				>
+					초기화
+				</button>
+			</span>
+			<div
+				style="
+					clear: both;
+					width: 800px;
+					height: 200px;
+					background-color: black;
+					color: white;
+					font-size: 40px;
+					font-weight: bold;
+				"
+				id="divMonitor"
+			></div>
+			<div style="clear: both; width: 800px; height: 300px; margin-top: 20px">
+				<span style="float: left; width: 100%; height: 20px; text-align: left"
+					>!뛰우고자 하실 메시지를 입력해주세요.<input
+						type="checkbox"
+						id="timerallview"
+						value="Y"
+						onclick="javascript:alertMessageChange();"
+					/>TIMER동시보기</span
+				>
+				<textarea style="width: 100%; height: 200px" id="MESSAGE"></textarea>
+				<br />
+				<button
+					id="btnMessage"
+					style="
+						background-color: #cccccc;
+						font-weight: bold;
+						height: 70px;
+						width: 140px;
+						color: #777777;
+						font-size: 13px;
+					"
+					onclick="javascript:alertMessage();"
+				>
+					메시지띄우기
+				</button>
+				&nbsp;
+				<button
+					id="btnTimer"
+					style="
+						background-color: #f79017;
+						height: 70px;
+						width: 140px;
+						color: white;
+						font-weight: bold;
+						font-size: 20px;
+					"
+					onclick="javascript:alertTimer();"
+				>
+					타이머보기
+				</button>
+			</div>
+		</div>
+	</body>
+</html>
