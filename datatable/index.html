@@ -4,10 +4,14 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Datatable example</title>
+		<title>Example Data table Data Rendering</title>
 
 		<link
-			href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap"
+			href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://github.com/downloads/lafeber/world-flags-sprite/flags32.css"
 			rel="stylesheet"
 		/>
 
@@ -80,19 +84,30 @@
 						},
 					],
 				});
+
+				let table = $('#example').DataTable();
+				let preClickedTD = null;
+				$('#example tbody').on('click', 'td', function () {
+					if (preClickedTD) {
+						returnTdToOriginal(preClickedTD);
+					}
+
+					let cell = table.cell(this);
+					let clickCellData = cell.data();
+					let clickCellInputId = 'td_' + cell.index().row + '_' + cell.index().column;
+					let inputData = "<input type='text' id ='" + clickCellInputId + "'>";
+					cell.data(inputData).draw();
+					cell.inputID = clickCellInputId;
+					$('#' + clickCellInputId).val(clickCellData);
+					$('#' + clickCellInputId).focus();
+					preClickedTD = cell;
+				});
 			});
+
+			function returnTdToOriginal(preClickedTD) {
+				preClickedTD.data($('#' + preClickedTD.inputID).val());
+			}
 		</script>
-
-		<style>
-			.f32 .flag {
-				vertical-align: middle;
-				margin: -8px 0;
-			}
-
-			progress {
-				width: 100%;
-			}
-		</style>
 	</head>
 	<body>
 		<table id="example" class="display nowrap" style="width: 100%">
@@ -118,4 +133,10 @@
 			</tfoot>
 		</table>
 	</body>
+	<script type="text/javascript">
+		$('#example tbody').on('click', 'td', function () {
+			alert('click');
+		});
+	</script>
+	>
 </html>

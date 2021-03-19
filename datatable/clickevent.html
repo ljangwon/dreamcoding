@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$('#p1').mouseenter(function () {
+					alert('You entered p1!');
+				});
+				$('#bt1').on('click', function () {
+					alert('You clicked button1!');
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<p id="p1">Enter this paragraph.</p>
+		<br />
+		<button id="bt1">button1</button>
+	</body>
+</html>
