@@ -97,13 +97,13 @@
 							},
 						},
 					],
-					"columnDefs": [
+					columnDefs: [
 						{
-							"targets": [0],
-							"visible": false,
-							"searchable": false
-						}
-					]
+							targets: [0],
+							visible: false,
+							searchable: false,
+						},
+					],
 				});
 
 				let table = $('#example').DataTable();
@@ -116,37 +116,51 @@
 						let inputData = "<input type='text' id ='" + clickCellInputId + "'>";
 						cell.data(inputData).draw();
 						cell.inputID = clickCellInputId;
-						$('#' + clickCellInputId).attr("originalData", clickCellData);
+						$('#' + clickCellInputId).attr('originalData', clickCellData);
+						//original data 저장함...
 						$('#' + clickCellInputId).val(clickCellData);
 						$('#' + clickCellInputId).focus();
 						preClickedTD = cell;
 					})
 					.on('key-blur', function (e, datatable, cell) {
 						if (preClickedTD) {
+							// 선택 상태에서 원복
 							returnTdToOrigianl(preClickedTD, cell.index().row, cell.index().column);
 						}
 					});
 			});
 
 			function returnTdToOrigianl(preClickedTD, rowIdx, colIdx) {
-				let cellInputId = "td_" + rowIdx + "_" + colIdx;
+				let cellInputId = 'td_' + rowIdx + '_' + colIdx;
 				let cell = table.cell(rowIdx, colIdx);
-				let id = table.cell(rowIdx, 0), data();
+				let id = table.cell(rowIdx, 0).data();
 
 				let columnHeader = table.column(colIdx).header();
 				let columnHeaderText = $(columnHeader).html();
 
 				// originData가 바꼈을 때에만 서버업데이트...
-				if ($("#" + cellInputId).attr("originalData") != $("#" + cellInputId).val()) {
-					saveTdData(id, columnHeaderText, $("#" + cellInputId).val());
+				if ($('#' + cellInputId).attr('originalData') != $('#' + cellInputId).val()) {
+					saveTdData(id, columnHeaderText, $('#' + cellInputId).val());
 				}
 
-				preClickedTD.data($("#" + preClickedTD.inputID).val());
-
+				preClickedTD.data($('#' + preClickedTD.inputID).val());
 			}
 
 			function saveTdData(id, header, value) {
-
+				$.ajax({
+					type: POST,
+					url: 'excel_datasave.php',
+					data: { id: id, header: header, value: value },
+					cache: false,
+					async: false,
+				}).done(function (result) {
+					if (result == 'ok') {
+						// 성공..
+						alert('ok');
+					} else {
+						alert('err');
+					}
+				});
 			}
 		</script>
 	</head>
@@ -155,6 +169,7 @@
 		<table id="example" class="display nowrap" style="width: 100%">
 			<thead>
 				<tr>
+					<th>Id</th>
 					<th>Name</th>
 					<th>Position</th>
 					<th>Salary</th>
@@ -165,12 +180,13 @@
 			</thead>
 			<tfoot>
 				<tr>
+					<th>Id</th>
 					<th>Name</th>
 					<th>Position</th>
+					<th>Salary</th>
+					<th>Start date</th>
 					<th>Office</th>
 					<th>Progress</th>
-					<th>Start date</th>
-					<th>Salary</th>
 				</tr>
 			</tfoot>
 		</table>
