@@ -14,10 +14,11 @@ while( $row = mysqli_fetch_array($result) )
   $row_array['id'] = $row['dt_id'];
   $row_array['name'] = urlencode($row['name']);
   $row_array['position'] = urlencode($row['position']);
+  $row_array['salary'] = urlencode($row['salary']);
+  $row_array['start_date'] = urlencode($row['start_date']);
   $row_array['office'] = urlencode($row['office']);
   $row_array['extn'] = urlencode($row['extn']);
-  $row_array['start_date'] = urlencode($row['salary']);
-
+  
   array_push($ret_arr, $row_array);
 }
 
