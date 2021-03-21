@@ -1,10 +1,9 @@
 <?php
+include "../../lib/conn.php";
 
-include "conn.php";
+$sql = " select id, grade1, grade2, name, status, house from st_master";
 
-$SQL = " select id, grade1, grade2, name, status, house from st_master";
-
-$result = db_select_rows($db_link, $SQL);
+$result = db_select_rows($sql);
 
 $ret_arr = array();
 
@@ -19,7 +18,7 @@ while( $row = mysqli_fetch_array($result) )
     
   array_push($ret_arr, $row_array);
 }
-
+db_close();
 ?>
 
 {"data": <?php

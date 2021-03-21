@@ -11,11 +11,6 @@
 			rel="stylesheet"
 		/>
 		<link
-			href="https://github.com/downloads/lafeber/world-flags-sprite/flags32.css"
-			rel="stylesheet"
-		/>
-
-		<link
 			href="https://cdn.datatables.net/keytable/2.6.1/css/keyTable.dataTables.min.css"
 			rel="stylesheet"
 		/>
@@ -36,7 +31,7 @@
 				display_count_st_master();
 				$('#example').DataTable({
 					paging: false,
-					ajax: 'ajax_st_master.php',
+					ajax: '../../model/st_master/ajax_st_master.php',
 					keys: true,
 					columns: [
 						{
@@ -111,7 +106,7 @@
 
 				function saveTdData(id, header, value) {
 					$.ajax({
-						url: 'save_st_master.php',
+						url: '../../model/st_master/save_st_master.php',
 						method: 'POST',
 						data: { id: id, header: header, value: value },
 						success: function (result) {
@@ -124,7 +119,7 @@
 
 				function display_count_st_master() {
 					$.ajax({
-						url: 'count_st_master.php',
+						url: '../../model/st_master/count_st_master.php',
 						cache: false,
 					}).done(function (html) {
 						$('#count').html(html);

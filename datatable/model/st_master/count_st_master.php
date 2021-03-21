@@ -1,16 +1,15 @@
 <?php
-
-include "conn.php";
+include "../../lib/conn.php";
 
 $sql1 = " select count(*) as cnt from st_master where grade1='초등' and status='재원' ";
 $sql2 = " select count(*) as cnt from st_master where grade1='중등' and status='재원' ";
 $sql3 = " select count(*) as cnt from st_master where grade1='고등' and status='재원' ";
 $sql4 = " select count(*) as cnt from st_master where status='대기' ";
 
-$e_count = db_select_row($db_link, $sql1);
-$m_count = db_select_row($db_link, $sql2);
-$h_count = db_select_row($db_link, $sql3);
-$w_count = db_select_row($db_link, $sql4);
+$e_count = db_select_row($sql1);
+$m_count = db_select_row($sql2);
+$h_count = db_select_row($sql3);
+$w_count = db_select_row($sql4);
 
 echo "<br>[초등: ";
 echo $e_count;
@@ -26,4 +25,5 @@ echo "[대기 ";
 echo $w_count;
 echo "명]<br> ";
 
+db_close();
 ?>

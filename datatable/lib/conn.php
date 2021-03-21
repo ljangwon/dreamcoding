@@ -10,8 +10,9 @@ $db_link = false;
 
 //DB 서버 연결
 function db_conn(){
-  global $DB_HOST,$DB_USER,$DB_PASSWD,$DB_SNAME,$db_link;
-
+  global $DB_HOST,$DB_USER,$DB_PASSWD,$DB_SNAME;
+  global $db_link;
+  
   $db_link = new mysqli( $DB_HOST, $DB_USER,$DB_PASSWD, $DB_SNAME);
 
   $db_error = $db_link->connect_error;
@@ -22,7 +23,7 @@ return $db_link;
 }
 
 //DB update 
-function db_update($db_link, $sql) {
+function db_update($sql) {
   global $db_link;
   //연결확인
   if(!$db_link)
@@ -39,7 +40,7 @@ function db_update($db_link, $sql) {
 }
 
 //DB insert
-function db_insert($db_link, $sql) {
+function db_insert($sql) {
   global $db_link;
 //연결확인
   if(!$db_link)
@@ -56,7 +57,7 @@ function db_insert($db_link, $sql) {
 }
 
 //DB delete
-function db_delete($db_link, $sql) {
+function db_delete($sql) {
   global $db_link;
 //연결확인
 if(!$db_link)
@@ -72,7 +73,7 @@ if(!$db_link)
 }
 
 //DB select one row
-function db_select_row($db_link, $sql) {
+function db_select_row($sql) {
   global $db_link;
   //연결확인
   if(!$db_link)
@@ -92,7 +93,7 @@ function db_select_row($db_link, $sql) {
 }
 
 //DB select rows
-function db_select_rows($db_link, $sql) {
+function db_select_rows($sql) {
   global $db_link;
 //연결확인
 if(!$db_link)
@@ -110,8 +111,11 @@ if(!$db_link)
 }
 
 //DB close
-function db_close($db_link) {
-  $db_link->close();
+function db_close() {
+  global $db_link;
+  if($db_link) {
+    $db_link->close();
+  }  
 }
 
 ?>
