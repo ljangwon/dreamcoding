@@ -33,6 +33,7 @@
 
 		<script type="text/javascript">
 			$(document).ready(function () {
+				display_count_st_master();
 				$('#example').DataTable({
 					paging: false,
 					ajax: 'ajax_st_master.php',
@@ -102,22 +103,31 @@
 					// originData가 바꼈을 때에만 서버업데이트...
 					if ($('#' + cellInputId).attr('originalData') != $('#' + cellInputId).val()) {
 						saveTdData(id, columnHeaderText, $('#' + cellInputId).val());
+						display_count_st_master();
 					}
 
 					preClickedTD.data($('#' + preClickedTD.inputID).val());
 				}
 
 				function saveTdData(id, header, value) {
-					let json = { id: id, header: header, value: value };
 					$.ajax({
 						url: 'save_st_master.php',
 						method: 'POST',
 						data: { id: id, header: header, value: value },
 						success: function (result) {
-							jQuery('#result').html('<br> success: <br>' + id + result);
+							$('#result').html('<br> success: <br>' + id + result);
 						},
 					}).fail(function (result) {
-						jQuery('#result').html('<br> fail: <br>' + id + result);
+						$('#result').html('<br> fail: <br>' + id + result);
+					});
+				}
+
+				function display_count_st_master() {
+					$.ajax({
+						url: 'count_st_master.php',
+						cache: false,
+					}).done(function (html) {
+						$('#count').html(html);
 					});
 				}
 			});
@@ -125,7 +135,7 @@
 	</head>
 
 	<body>
-		<h1>초등부: 6명, 중등부: 9명, 고등부: 5명</h1>
+		<div id="count"></div>
 		<table id="example" class="display nowrap" style="width: 100%">
 			<thead>
 				<tr>

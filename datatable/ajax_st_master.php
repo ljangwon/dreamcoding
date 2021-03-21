@@ -1,10 +1,10 @@
 <?php
 
-include "conndb.php";
+include "conn.php";
 
 $SQL = " select id, grade1, grade2, name, status, house from st_master";
 
-$result = result_query($SQL);
+$result = db_select_rows($db_link, $SQL);
 
 $ret_arr = array();
 

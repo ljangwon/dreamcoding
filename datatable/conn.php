@@ -74,19 +74,20 @@ if(!$db_link)
 //DB select one row
 function db_select_row($db_link, $sql) {
   global $db_link;
-//연결확인
-if(!$db_link)
-{
-  $db_link=db_conn();
-}  
+  //연결확인
+  if(!$db_link)
+  {
+    $db_link=db_conn();
+  }  
   if( $result = $db_link->query($sql) ) {
-    echo "one row is selected ";
+    //echo "one row is selected ";
     
     $rows = mysqli_fetch_array($result);
     return $rows[0];
   }
   else {
     echo "select row 오류: " .$sql . "<br>" . $db_link->error;
+    return null;
   }
 }
 
@@ -99,13 +100,11 @@ if(!$db_link)
   $db_link=db_conn();
 }  
   if( $result = $db_link->query($sql) ) {
-    echo "rows are selected ";
-    
-    $rows = mysqli_fetch_array($result);
-    return $rows;
+    return $result;
   }
   else {
     echo "select rows 오류: " .$sql . "<br>" . $db_link->error;
+    return null;
   }
 
 }
