@@ -1,10 +1,10 @@
 <?php
 
-include "conndb.php";
+include "conn.php";
 
 //$id, $header, $value
 
-
+/*
 // get postdata as json
 $postdata = trim( file_get_contents("php://input"), "\xEF\xBB\xBF");
 // convert json to php structure 
@@ -13,13 +13,24 @@ var_dump( $postdata );
 
 $request = json_decode($postdata);
 
-/*
+*/
+
+$db_link = db_conn();
+
+$id = $_POST[ 'id' ];
+$header = $_POST[ 'header' ];
+$value = $_POST[ 'value' ];
+
+
+if(!$header) {
+  exit;
+}
 
 $dbColumn = "";
 switch($header) {
   case "Name" : $dbColumn = "name";
     break;
-  case "Postion" : $dbColumn = "position";
+  case "Position" : $dbColumn = "position";
     break;
   case "Salary" : $dbColumn = "salary";
     break;
@@ -29,19 +40,27 @@ switch($header) {
     break;
   case "Progress" : $dbColumn = "extn";
     break;
+    $dbColumn = "none";
 }
 
+
 $result = null;
+
 if($dbColumn && $id && $value)
 {
-  //update dt_cxcel set name = 'AA' where dt_id='1'
-$SQL = " update dt_excel set " . $dbColumn. "='" .$value."' where dt_id='".$id."' ";
-$result = result_query($SQL);
+  $sql = "update dt_excel set " . $dbColumn . "='" .$value."' where dt_id='". $id ."' ";
+
+
+  $result = db_update($db_link, $sql);
+ 
+  if( $result == 'ok' ) {
+    echo 'data updated';
+  }
+  else {
+    echo $result;
+  }
 }
-if($result)
-{ 
-  echo "ok";
-}
-*/
-//echo "ok";
+
+db_close($db_link);
+
 ?>

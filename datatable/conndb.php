@@ -2,7 +2,7 @@
 //SQL환경 설정
 global $DB_HOST,$DB_USER,$DB_PASSWD,$DB_SNAME,$db_link;
 
-$DB_HOST="localhost";
+$DB_HOST="jakeleanco.ipdisk.co.kr";
 $DB_USER="codei";
 $DB_PASSWD="111111";
 $DB_SNAME="codei";
