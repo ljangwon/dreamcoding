@@ -1,8 +1,8 @@
-<?
+<?php
 //SQL환경 설정
 global $DB_HOST,$DB_USER,$DB_PASSWD,$DB_SNAME,$db_link;
 
-$DB_HOST="leanedu.net";
+$DB_HOST="localhost";
 $DB_USER="codei";
 $DB_PASSWD="111111";
 $DB_SNAME="codei";
@@ -14,7 +14,7 @@ function db_conn(){
 	$db_link=mysqli_connect("$DB_HOST","$DB_USER","$DB_PASSWD");
 
 	if (mysqli_connect_errno($db_link)){
-		printf("%d : %S", mysqli_errno(), mysqli_error());
+		printf("%d : %S", mysqli_errno($db_link), mysqli_error($db_link));
 		exit;
 	}
 	return $db_link;
@@ -35,7 +35,7 @@ function result_query($query){
 	}
 
 	if(!($result=mysqli_query($db_link,$query))){
-		printf("%d : %s",mysqli_errno(),mysqli_error());
+		printf("%d : %s",mysqli_errno($db_link),mysqli_error($db_link));
 		exit;
 	}
 	return $result;
@@ -51,14 +51,14 @@ function result_queryTran($query){
 	}
 
 	if(!($stat=mysqli_select_db($db_link,"$DB_SNAME"))){
-		rollbackTran();
+		mysqli_rollback($db_link);
 		printf("DB 실패");
 		exit;
 	}
 
 	if(!($result=mysqli_query($db_link,$query))){
-		rollbackTran();
-		printf("%d : %s",mysqli_errno(),mysqli_error());
+		mysqli_rollback($db_link);
+		printf("%d : %s",mysqli_errno($db_link),mysqli_error($db_link));
 		exit;
 	}
 	return $result;
@@ -79,7 +79,7 @@ function result_oneVal($query){
 	}
 
 	if(!($result=mysqli_query($db_link,$query))){
-		printf("%d : %s",mysqli_errno(),mysqli_error());
+		printf("%d : %s",mysqli_errno($db_link),mysqli_error($db_link));
 		exit;
 	}
 
@@ -97,14 +97,14 @@ function result_oneValTran($query){
 	}
 
 	if(!($stat=mysqli_select_db($db_link,"$DB_SNAME"))){
-		rollbackTran();
+		mysqli_rollback($db_link);
 		printf("DB 실패");
 		exit;
 	}
 
 	if(!($result=mysqli_query($db_link,$query))){
-		rollbackTran();
-		printf("%d : %s",mysqli_errno(),mysqli_error());
+		mysqli_rollback($db_link);
+		printf("%d : %s",mysqli_errno($db_link),mysqli_error($db_link));
 		exit;
 	}
 
@@ -112,28 +112,5 @@ function result_oneValTran($query){
 	return $row[0];
 }
 
-function mysql_num_rows($tmp)
-{
-	return mysqli_num_rows($tmp);
-}
 
-function mysql_fetch_array($tmp)
-{
-	return mysqli_fetch_array($tmp);
-}
-
-function mysql_data_seek($tmp,$iTMP)
-{
-	return mysqli_data_seek($tmp,$iTMP);
-}
-
-function mysql_free_result($tmp)
-{
-	return mysqli_free_result($tmp);
-}
-
-function mysql_close($tmp)
-{
-	return mysqli_close($tmp);
-}
-?> ?>
+?>

@@ -4,12 +4,16 @@ include "conndb.php";
 
 //$id, $header, $value
 
-$postdata = file_get_contents("php://input");
+
+// get postdata as json
+$postdata = trim( file_get_contents("php://input"), "\xEF\xBB\xBF");
+// convert json to php structure 
+
+var_dump( $postdata );
+
 $request = json_decode($postdata);
 
-$id = AA($id);
-$header = AA($header);
-$value = AA($value);
+/*
 
 $dbColumn = "";
 switch($header) {
@@ -38,4 +42,6 @@ if($result)
 { 
   echo "ok";
 }
+*/
+//echo "ok";
 ?>

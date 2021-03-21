@@ -14,7 +14,7 @@ function db_conn(){
 	$db_link=mysqli_connect("$DB_HOST","$DB_USER","$DB_PASSWD");
 
 	if (mysqli_connect_errno($db_link)){
-		printf("%d : %S", mysqli_errno(), mysqli_error());
+		printf("%d : %S", mysqli_errno($db_link), mysqli_error($db_link));
 		exit;
 	}
 	return $db_link;
@@ -35,7 +35,7 @@ function result_query($query){
 	}
 
 	if(!($result=mysqli_query($db_link,$query))){
-		printf("%d : %s",mysqli_errno(),mysqli_error());
+		printf("%d : %s",mysqli_errno($db_link),mysqli_error($db_link));
 		exit;
 	}
 	return $result;
@@ -58,7 +58,7 @@ function result_queryTran($query){
 
 	if(!($result=mysqli_query($db_link,$query))){
 		mysqli_rollback($db_link);
-		printf("%d : %s",mysqli_errno(),mysqli_error());
+		printf("%d : %s",mysqli_errno($db_link),mysqli_error($db_link));
 		exit;
 	}
 	return $result;
@@ -79,7 +79,7 @@ function result_oneVal($query){
 	}
 
 	if(!($result=mysqli_query($db_link,$query))){
-		printf("%d : %s",mysqli_errno(),mysqli_error());
+		printf("%d : %s",mysqli_errno($db_link),mysqli_error($db_link));
 		exit;
 	}
 
@@ -104,7 +104,7 @@ function result_oneValTran($query){
 
 	if(!($result=mysqli_query($db_link,$query))){
 		mysqli_rollback($db_link);
-		printf("%d : %s",mysqli_errno(),mysqli_error());
+		printf("%d : %s",mysqli_errno($db_link),mysqli_error($db_link));
 		exit;
 	}
 

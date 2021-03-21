@@ -48,7 +48,6 @@
 						},
 						{
 							data: 'salary',
-							render: $.fn.dataTable.render.number(',', '.', 2, '$'),
 						},
 						{
 							data: 'start_date',
@@ -109,7 +108,7 @@
 				let table = $('#example').DataTable();
 				let preClickedTD = null;
 				table
-					.on('key-focus', function (e, datatable, cell, origianalEvent) {
+					.on('key-focus', function (e, datatable, cell, originalEvent) {
 						let rowData = datatable.row(cell.index().row).data();
 						let clickCellData = cell.data();
 						let clickCellInputId = 'td_' + cell.index().row + '_' + cell.index().column;
@@ -125,43 +124,63 @@
 					.on('key-blur', function (e, datatable, cell) {
 						if (preClickedTD) {
 							// 선택 상태에서 원복
-							returnTdToOrigianl(preClickedTD, cell.index().row, cell.index().column);
+							returnTdToOriginal(preClickedTD, cell.index().row, cell.index().column);
 						}
 					});
-			});
 
-			function returnTdToOrigianl(preClickedTD, rowIdx, colIdx) {
-				let cellInputId = 'td_' + rowIdx + '_' + colIdx;
-				let cell = table.cell(rowIdx, colIdx);
-				let id = table.cell(rowIdx, 0).data();
+				function returnTdToOriginal(preClickedTD, rowIdx, colIdx) {
+					let cellInputId = 'td_' + rowIdx + '_' + colIdx;
+					let cell = table.cell(rowIdx, colIdx);
+					let id = table.cell(rowIdx, 0).data();
 
-				let columnHeader = table.column(colIdx).header();
-				let columnHeaderText = $(columnHeader).html();
+					let columnHeader = table.column(colIdx).header();
+					let columnHeaderText = $(columnHeader).html();
 
-				// originData가 바꼈을 때에만 서버업데이트...
-				if ($('#' + cellInputId).attr('originalData') != $('#' + cellInputId).val()) {
-					saveTdData(id, columnHeaderText, $('#' + cellInputId).val());
-				}
-
-				preClickedTD.data($('#' + preClickedTD.inputID).val());
-			}
-
-			function saveTdData(id, header, value) {
-				$.ajax({
-					type: POST,
-					url: 'excel_datasave.php',
-					data: { id: id, header: header, value: value },
-					cache: false,
-					async: false,
-				}).done(function (result) {
-					if (result == 'ok') {
-						// 성공..
-						alert('ok');
-					} else {
-						alert('err');
+					// originData가 바꼈을 때에만 서버업데이트...
+					if ($('#' + cellInputId).attr('originalData') != $('#' + cellInputId).val()) {
+						saveTdData(id, columnHeaderText, $('#' + cellInputId).val());
 					}
-				});
-			}
+
+					preClickedTD.data($('#' + preClickedTD.inputID).val());
+				}
+				/*
+			let json = { id: id, header: header, value: value };
+			$.ajax( {
+				datatype: "html",
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				data: json,
+				success: function( result) {
+					jQuery("#result").thml(result);
+				}
+			})
+
+			contentType When sending data to the server, use this content type.
+
+			dataType The type of data that you're expecting back from the server.
+			If none is specified, jQuery will try to infer it based on
+			the MIME type of the response
+			*/
+				function saveTdData(id, header, value) {
+					let json = { id: id, header: header, value: value };
+					$.ajax({
+						type: 'POST',
+						url: 'excel_datasave.php',
+						data: json,
+						contentType: 'charset=utf-8',
+						cache: false,
+						async: false,
+						success: function (result) {
+							jQuery('#result').html(result);
+						},
+					})
+						.done(function (result) {
+							alert('done:' + result);
+						})
+						.fail(function (result) {
+							alert('fail: ' + result);
+						});
+				}
+			});
 		</script>
 	</head>
 
@@ -190,5 +209,7 @@
 				</tr>
 			</tfoot>
 		</table>
+
+		<div id="result"></div>
 	</body>
 </html>
