@@ -31,7 +31,7 @@
 				display_count_st_master();
 				$('#example').DataTable({
 					paging: false,
-					ajax: '../../model/st_master/ajax_st_master.php',
+					ajax: 'model/st_master/ajax_st_master.php',
 					keys: true,
 					columns: [
 						{
@@ -100,12 +100,13 @@
 						saveTdData(id, columnHeaderText, $('#' + cellInputId).val());
 						display_count_st_master();
 					}
+
 					preClickedTD.data($('#' + preClickedTD.inputID).val());
 				}
 
 				function saveTdData(id, header, value) {
 					$.ajax({
-						url: '../../model/st_master/save_st_master.php',
+						url: 'model/st_master/save_st_master.php',
 						method: 'POST',
 						data: { id: id, header: header, value: value },
 						success: function (result) {
@@ -118,7 +119,7 @@
 
 				function display_count_st_master() {
 					$.ajax({
-						url: '../../model/st_master/count_st_master.php',
+						url: 'model/st_master/count_st_master.php',
 						cache: false,
 					}).done(function (html) {
 						$('#count').html(html);

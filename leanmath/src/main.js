@@ -15,32 +15,28 @@ toggleBtn.addEventListener('click', () => {
 	icons.classList.toggle('active');
 });
 
-// Fetch the items from the JSON file
-function loadStudents() {
-	return fetch('data/data.json')
+// Fetch the student master as JSON file from DB
+function load_st_master() {
+	return fetch('model/st_master/ajax_st_master.php')
 		.then((response) => response.json())
-		.then((json) => json.students);
+		.then((json) => json.data);
 }
 
 // Update the list with the given items
-function displayStudents(students) {
+function dis_st_master(students) {
 	const container = document.querySelector('.students__list');
-	container.innerHTML = students
-		.map((student) => createHTMLString_st_list(student))
-		.join('');
+	container.innerHTML = students.map((student) => createHTMLString_st_master(student)).join('');
 }
 
 // Create HTML list item from the given data item
-function createHTMLString_st_list(student) {
+function createHTMLString_st_master(student) {
 	return `
   <li class="student">
-     <span class="item_description">${student.num}, ${student.grade1}, ${student.grade2}, ${student.name}</span><br>
-     <span class="item_description">
-     ${student.num}, 
-     <form>
-     <input type="text" id="grade1" value="${student.grade1}">,
-     <input type="text" id="grade2" value="${student.grade2}">,
-     <input type="text" id="name" value="${student.name}"></span>
+		<form>
+		 <input type="text" size="3" id="id_${student.id}" value="${student.id}">,
+     <input type="text" id="grade1_${student.id}" value="${student.grade1}">,
+     <input type="text" id="grade2_${student.id}" value="${student.grade2}">,
+     <input type="text" id="name_${student.id}" value="${student.name}"></span>
      </form>
   </li>
   `;
@@ -49,25 +45,23 @@ function createHTMLString_st_list(student) {
 function load_st_info() {
 	return fetch('data/이수현.json')
 		.then((response) => response.json())
-		.then((json) => json.course_test_history);
+		.then((json) => json.data);
 }
 
 // Update the dashboard with the given items
 function display_st_info(st_infos) {
 	const container = document.querySelector('#st__dashboard');
-	container.innerHTML = st_infos
-		.map((st_info) => createHTMLString_st_info(st_info))
-		.join('');
+	container.innerHTML = st_infos.map((st_info) => createHTMLString_st_info(st_info)).join('');
 }
 
 // Create HTML list item from the given data item
 function createHTMLString_st_info(st_info) {
 	return `
   <li class="student">
-     	<span class="item_description"> ${st_info.num}, 
-     	<input type="text" id="grade1" value="${st_info.test_name}">,
-     	<input type="text" id="grade2" value="${st_info.test_date}">,
-     	<input type="text" id="name" value="${st_info.test_result}"></span>
+     	<span class="item_description"> ${st_info.id}, 
+     	<input type="text" id="grade1" value="${st_info.grade1}">,
+     	<input type="text" id="grade2" value="${st_info.grade2}">,
+     	<input type="text" id="name" value="${st_info.name}"></span>
   </li>
   `;
 }
@@ -84,32 +78,62 @@ function onButtonClick(event, items) {
 	}
 
 	if (key == 'grade1' && value == 'A') {
-		displayStudents(items);
+		dis_st_master(items);
 		return;
 	}
 
 	console.log(key);
 	console.log(value);
 
-	displayStudents(items.filter((item) => item[key] === value));
+	dis_st_master(items.filter((item) => item[key] === value));
+}
+
+function onMenuClick(event, items) {
+	const dataset = event.target.dataset;
+	const key = dataset.key;
+	const value = dataset.value;
+
+	if (key == null || value == null) {
+		return;
+	}
+
+	if (key == 'menu' && value == '1') {
+		dis_menu(1);
+		return;
+	}
+	if (key == 'menu' && value == '2') {
+		dis_menu(2);
+		return;
+	}
+	if (key == 'menu' && value == '3') {
+		dis_menu(3);
+		return;
+	}
+
+	console.log(key);
+	console.log(value);
+
+	dis_menu(0);
+}
+
+// show menus
+function dis_menu(num) {
+	const main_board = document.querySelector('#main_board');
+	main_board.innerHTML = '';
+	main_board.innerHTML = `test menu ${num}`;
 }
 
 function setEventListeners(items) {
 	const buttons = document.querySelector('.students__option');
-
 	buttons.addEventListener('click', (event) => onButtonClick(event, items));
+
+	const menus = document.querySelector('.navbar__menu');
+	menus.addEventListener('click', (event) => onMenuClick(event, items));
 }
 
-/* loadStudents()
-	.then((students) => {
-		displayStudents(students);
-		setEventListeners(students);
-	})
-	.catch(console.log);
-*/
-
-load_st_info()
-	.then((st_info) => {
-		display_st_info(st_info);
+load_st_master()
+	.then((items) => {
+		dis_st_master(items);
+		setEventListeners(items);
 	})
 	.catch(console.log);
