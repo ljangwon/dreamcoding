@@ -33,7 +33,7 @@ if($dbColumn && $id && $value)
   $result = db_update($sql);
  
   if( $result == 'ok' ) {
-    echo 'data updated';
+    echo 'st_master table is updated';
   }
   else {
     echo $result;

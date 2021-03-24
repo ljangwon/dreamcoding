@@ -4,10 +4,10 @@ include "../../lib/conn.php";
 $st_id = $_GET[ 'st_id' ];
 
 if( $st_id ) {
-  $sql = "select id, st_id, course, memo from study_history where st_id=".$st_id ;
+  $sql = "select id, st_id, course, memo from test_history where st_id=".$st_id ;
 }
 else {
-  $sql = "select id, st_id, course, memo from study_history";
+  $sql = "select id, st_id, course, memo from test_history";
 }
 
 

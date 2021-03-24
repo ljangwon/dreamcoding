@@ -33,8 +33,11 @@
 			$(document).ready(function () {
 				display_count_st_master();
 
+				let st_id = location.hash.substr(2);
+
 				display_st_master('st_master');
-				display_study_history('study_history');
+				display_study_history('study_history', st_id);
+				display_study_history('test_history', st_id);
 			});
 		</script>
 	</head>
@@ -62,6 +65,7 @@
 			});
 		</script>
 
+		<div id="st_master_title"></div>
 		<table id="st_master" class="display nowrap" style="width: 100%">
 			<thead>
 				<tr>
@@ -86,6 +90,7 @@
 		</table>
 		<div id="st_master_result"></div>
 
+		<div id="study_history_title"></div>
 		<table id="study_history" class="display nowrap" style="width: 100%">
 			<thead>
 				<tr>
@@ -106,5 +111,27 @@
 		</table>
 
 		<div id="study_history_result"></div>
+
+		<div id="test_history_title"></div>
+		<table id="test_history" class="display nowrap" style="width: 100%">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>st_Id</th>
+					<th>course</th>
+					<th>memo</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>id</th>
+					<th>st_Id</th>
+					<th>course</th>
+					<th>memo</th>
+				</tr>
+			</tfoot>
+		</table>
+
+		<div id="test_history_result"></div>
 	</body>
 </html>
