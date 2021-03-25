@@ -38,10 +38,8 @@ function returnTdToOriginal(db_table, table, preClickedTD, rowIdx, colIdx) {
 }
 
 function display_st_master(db_table) {
-	$(`#${db_table}_title`).html('<h1> Student Master Table</h1>');
+	$(`#${db_table}_title`).html(`<h1> Student Master Table</h1>`);
 	$(`#${db_table}`).DataTable({
-		scrollY: '30vh',
-		scrollCollapse: true,
 		paging: false,
 		keys: true,
 		ajax: `model/${db_table}/select.php`,
@@ -79,6 +77,7 @@ function display_st_master(db_table) {
 			},
 		],
 	});
+
 	let table = $(`#${db_table}`).DataTable();
 	let preClickedTD = null;
 	table
@@ -173,7 +172,7 @@ function display_study_history(db_table, st_id) {
 }
 
 function display_test_history(db_table, st_id) {
-	$(`#${db_table}_title`).html(`<h1>${st_id}'s Study History Table</h1>`);
+	$(`#${db_table}_title`).html(`<h1>${st_id}'s Test History Table</h1>`);
 	$(`#${db_table}`).DataTable({
 		paging: false,
 		keys: true,
