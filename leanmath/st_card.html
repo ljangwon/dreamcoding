@@ -36,8 +36,12 @@
 				let st_id = location.hash.substr(2);
 
 				display_st_master('st_master');
-				display_study_history('study_history', st_id);
-				display_study_history('test_history', st_id);
+				if (st_id) {
+					display_st_info(st_id);
+				} else {
+					$('#study_history').hide();
+					$('#test_history').hide();
+				}
 			});
 		</script>
 	</head>
@@ -45,23 +49,32 @@
 	<body>
 		<div id="count"></div>
 
-		<form action="javascript:alert( 'success!' );">
+		<form id="form1">
 			<div>
-				<input id="input_data" type="text" />
+				<input id="st_name" value="홍길동" type="text" />
 				<input type="submit" />
 			</div>
 		</form>
+		<div id="input_result">input_result</div>
 		<span></span>
 
 		<script>
-			$('form').submit(function (event) {
-				if ($('#input_data').val() === 'correct') {
-					$('span').text('Validated...').show();
-					return;
+			$('#form1').submit(function (event) {
+				let st_name = $('#st_name').val();
+				if (st_name) {
+					$.ajax({
+						url: `model/st_master/new_st_master.php`,
+						method: 'POST',
+						data: { name: st_name },
+						cache: false,
+						async: false,
+					}).done(function (result) {
+						if (result == 'ok') {
+							alert(result);
+							$('#input_result').innerhtml(`<br> ${st_name} is inserted <br> `);
+						}
+					});
 				}
-
-				$('span').text('Not valid!').show().fadeOut(1000);
-				event.preventDefault();
 			});
 		</script>
 

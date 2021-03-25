@@ -49,7 +49,7 @@ function db_insert($sql) {
 	}  
 
   if( $db_link->query($sql) === TRUE ) {
-    echo 'db inserted';
+    echo 'ok';
   }
   else {
     echo "insert 오류: " .$sql . "<br>" . $db_link->error;

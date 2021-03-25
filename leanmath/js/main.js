@@ -65,12 +65,12 @@ function display_st_master(db_table) {
 		],
 
 		columnDefs: [
-			{
+			/*{
 				targets: [0],
 				render: function (data, type, row, meta) {
-					return '#' + data;
+					return `#${data}`;
 				},
-			},
+			},*/
 			{
 				targets: '_all',
 				className: 'dt-body-center',
@@ -82,6 +82,10 @@ function display_st_master(db_table) {
 	let preClickedTD = null;
 	table
 		.on('key-focus', function (e, datatable, cell) {
+			if (cell.index().column == 0) {
+				display_st_info(cell.data());
+				return;
+			}
 			let clickCellData = cell.data();
 			let clickCellInputId = 'td_' + cell.index().row + '_' + cell.index().column;
 			let inputData = "<input type='text' id ='" + clickCellInputId + "'>";
@@ -107,9 +111,43 @@ function display_st_master(db_table) {
 		});
 }
 
+function display_st_info(st_id) {
+	display_study_history('study_history', st_id);
+	display_test_history('test_history', st_id);
+}
+
+function name_st_master(st_id) {
+	$.ajax({
+		url: `model/st_master/name_st_master.php?st_id=${st_id}`,
+		cache: false,
+	}).done(function (text) {
+		return text;
+	});
+}
+
 function display_study_history(db_table, st_id) {
-	$(`#${db_table}_title`).html(`<h1>${st_id}'s Study History Table</h1>`);
+	let st_name = null;
+
+	if (st_id) {
+		$.ajax({
+			url: `model/st_master/name_st_master.php?st_id=${st_id}`,
+			cache: false,
+			async: false,
+		}).done(function (text) {
+			st_name = text;
+		});
+	}
+
+	if (st_name) {
+		$(`#${db_table}_title`).html(`<h1>${st_name}'s Study History Table</h1>`);
+	} else {
+		$(`#${db_table}_title`).html(`<h1>All Study History Table</h1>`);
+	}
+
+	$(`#${db_table}`).show();
+
 	$(`#${db_table}`).DataTable({
+		destroy: true,
 		paging: false,
 		keys: true,
 		ajax: `model/${db_table}/select.php?st_id=${st_id}`,
@@ -141,11 +179,13 @@ function display_study_history(db_table, st_id) {
 			},
 		],
 	});
-
 	let table = $(`#${db_table}`).DataTable();
 	let preClickedTD = null;
 	table
 		.on('key-focus', function (e, datatable, cell) {
+			if (cell.index().column == 0) {
+				exit;
+			}
 			let clickCellData = cell.data();
 			let clickCellInputId = 'td_' + cell.index().row + '_' + cell.index().column;
 			let inputData = "<input type='text' id ='" + clickCellInputId + "'>";
@@ -172,8 +212,26 @@ function display_study_history(db_table, st_id) {
 }
 
 function display_test_history(db_table, st_id) {
-	$(`#${db_table}_title`).html(`<h1>${st_id}'s Test History Table</h1>`);
+	let st_name = null;
+
+	if (st_id) {
+		$.ajax({
+			url: `model/st_master/name_st_master.php?st_id=${st_id}`,
+			cache: false,
+			async: false,
+		}).done(function (text) {
+			st_name = text;
+		});
+	}
+
+	if (st_name) {
+		$(`#${db_table}_title`).html(`<h1>${st_name}'s Test History Table</h1>`);
+	} else {
+		$(`#${db_table}_title`).html(`<h1>All Test History Table</h1>`);
+	}
+	$(`#${db_table}`).show();
 	$(`#${db_table}`).DataTable({
+		destroy: true,
 		paging: false,
 		keys: true,
 		ajax: `model/${db_table}/select.php?st_id=${st_id}`,
@@ -210,6 +268,9 @@ function display_test_history(db_table, st_id) {
 	let preClickedTD = null;
 	table
 		.on('key-focus', function (e, datatable, cell) {
+			if (cell.index().column == 0) {
+				exit;
+			}
 			let clickCellData = cell.data();
 			let clickCellInputId = 'td_' + cell.index().row + '_' + cell.index().column;
 			let inputData = "<input type='text' id ='" + clickCellInputId + "'>";
