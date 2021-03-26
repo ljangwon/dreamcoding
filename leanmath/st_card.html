@@ -52,29 +52,41 @@
 		<form id="form1">
 			<div>
 				<input id="st_name" value="홍길동" type="text" />
-				<input type="submit" />
+				<input type="submit" value="생성" />
 			</div>
 		</form>
-		<div id="input_result">input_result</div>
-		<span></span>
+		<form id="form2">
+			<div>
+				<input type="submit" value="삭제" />
+			</div>
+		</form>
 
 		<script>
 			$('#form1').submit(function (event) {
 				let st_name = $('#st_name').val();
 				if (st_name) {
 					$.ajax({
-						url: `model/st_master/new_st_master.php`,
+						url: `model/st_master/new_row.php`,
 						method: 'POST',
 						data: { name: st_name },
 						cache: false,
 						async: false,
 					}).done(function (result) {
 						if (result == 'ok') {
-							alert(result);
-							$('#input_result').innerhtml(`<br> ${st_name} is inserted <br> `);
 						}
 					});
 				}
+			});
+			$('#form2').submit(function (event) {
+				$.ajax({
+					url: `model/st_master/delete_rows.php`,
+					cache: false,
+					async: false,
+				}).done(function (result) {
+					if (result == 'ok') {
+						$('#input_result').text(`<br> new data is deleted <br> `);
+					}
+				});
 			});
 		</script>
 
@@ -104,6 +116,9 @@
 		<div id="st_master_result"></div>
 
 		<div id="study_history_title"></div>
+		<button id="btn_new_study_history" value="new">추가</button>
+		<div id="btn_new_study_history_result"></div>
+
 		<table id="study_history" class="display nowrap" style="width: 100%">
 			<thead>
 				<tr>
@@ -126,6 +141,9 @@
 		<div id="study_history_result"></div>
 
 		<div id="test_history_title"></div>
+		<button id="btn_new_test_history" value="new">추가</button>
+		<div id="btn_new_test_history_result"></div>
+
 		<table id="test_history" class="display nowrap" style="width: 100%">
 			<thead>
 				<tr>

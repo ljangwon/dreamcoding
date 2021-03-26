@@ -65,7 +65,7 @@ if(!$db_link)
   $db_link=db_conn();
 }  
   if( $db_link->query($sql) === TRUE ) {
-    echo 'db deleted';
+    echo 'ok';
   }
   else {
     echo "delete 오류: " .$sql . "<br>" . $db_link->error;

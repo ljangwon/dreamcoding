@@ -110,12 +110,6 @@ function display_st_master(db_table) {
 			}
 		});
 }
-
-function display_st_info(st_id) {
-	display_study_history('study_history', st_id);
-	display_test_history('test_history', st_id);
-}
-
 function name_st_master(st_id) {
 	$.ajax({
 		url: `model/st_master/name_st_master.php?st_id=${st_id}`,
@@ -123,6 +117,11 @@ function name_st_master(st_id) {
 	}).done(function (text) {
 		return text;
 	});
+}
+
+function display_st_info(st_id) {
+	display_study_history('study_history', st_id);
+	display_test_history('test_history', st_id);
 }
 
 function display_study_history(db_table, st_id) {
@@ -143,6 +142,26 @@ function display_study_history(db_table, st_id) {
 	} else {
 		$(`#${db_table}_title`).html(`<h1>All Study History Table</h1>`);
 	}
+
+	$('#btn_new_study_history').show();
+
+	$('#btn_new_study_history').click(function (event) {
+		$.ajax({
+			url: `model/study_history/new_row.php`,
+			method: 'POST',
+			data: { st_id: st_id },
+			cache: false,
+			async: false,
+		})
+			.done(function (result) {
+				if (result == 'ok') {
+					$('#btn_new_study_history_result').text(`new row is inserted `);
+				}
+			})
+			.fail(function (result) {
+				alert(result);
+			});
+	});
 
 	$(`#${db_table}`).show();
 
@@ -167,12 +186,6 @@ function display_study_history(db_table, st_id) {
 		],
 
 		columnDefs: [
-			{
-				targets: [0],
-				render: function (data, type, row, meta) {
-					return '#' + data;
-				},
-			},
 			{
 				targets: '_all',
 				className: 'dt-body-center',
@@ -229,6 +242,27 @@ function display_test_history(db_table, st_id) {
 	} else {
 		$(`#${db_table}_title`).html(`<h1>All Test History Table</h1>`);
 	}
+
+	$('#btn_new_test_history').show();
+
+	$('#btn_new_test_history').click(function (event) {
+		$.ajax({
+			url: `model/test_history/new_row.php`,
+			method: 'POST',
+			data: { st_id: st_id },
+			cache: false,
+			async: false,
+		})
+			.done(function (result) {
+				if (result == 'ok') {
+					$('#btn_new_test_history_result').text(`new row is inserted `);
+				}
+			})
+			.fail(function (result) {
+				alert(result);
+			});
+	});
+
 	$(`#${db_table}`).show();
 	$(`#${db_table}`).DataTable({
 		destroy: true,
@@ -251,12 +285,6 @@ function display_test_history(db_table, st_id) {
 		],
 
 		columnDefs: [
-			{
-				targets: [0],
-				render: function (data, type, row, meta) {
-					return '#' + data;
-				},
-			},
 			{
 				targets: '_all',
 				className: 'dt-body-center',
