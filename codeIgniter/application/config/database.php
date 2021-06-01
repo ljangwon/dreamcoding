@@ -75,7 +75,7 @@ $query_builder = true;
 
 $db["default"] = [
 	"dsn" => "",
-	"hostname" => "localhost",
+	"hostname" => "jakeleanco.ipdisk.co.kr",
 	"username" => "codei",
 	"password" => "111111",
 	"database" => "codei",
