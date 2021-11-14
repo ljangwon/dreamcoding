@@ -110,6 +110,7 @@ function display_st_master(db_table) {
 			}
 		});
 }
+
 function name_st_master(st_id) {
 	$.ajax({
 		url: `model/st_master/name_st_master.php?st_id=${st_id}`,
